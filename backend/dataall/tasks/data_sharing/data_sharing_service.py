@@ -49,6 +49,8 @@ class DataSharingService:
             Share_SM = api.ShareObjectSM(share.status)
             new_share_state = Share_SM.run_transition(models.Enums.ShareObjectActions.Start.value)
             Share_SM.update_state(session, share, new_share_state)
+            #TODO: for dataset.dataSharingModel = Full avoid lines 54-99 and instead call a ProcessS3BucketShare class
+            #TODO: ProcessS3BucketShare class must have a process_approved_shares, process_revoked_shares, clean_up
 
             (
                 shared_tables,

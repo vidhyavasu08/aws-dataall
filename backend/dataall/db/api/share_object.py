@@ -1179,6 +1179,23 @@ class ShareObject:
         )
         return share_item
 
+    def find_share_item_bucket(
+        session,
+        share: models.ShareObject,
+    ) -> models.ShareObjectItem:
+        #TODO add find_share_item_bucket
+        share_item: models.ShareObjectItem = (
+            session.query(models.ShareObjectItem)
+            .filter(
+                and_(
+                    #TODO: ADD TYPE CONDITION, not needed but better
+                    models.ShareObjectItem.shareUri == share.shareUri,
+                )
+            )
+            .first()
+        )
+        return share_item
+
     @staticmethod
     def get_share_data(session, share_uri):
         share: models.ShareObject = session.query(models.ShareObject).get(share_uri)
