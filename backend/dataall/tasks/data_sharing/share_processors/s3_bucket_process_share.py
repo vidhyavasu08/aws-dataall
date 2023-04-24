@@ -1,6 +1,7 @@
 import logging
 
 from ....db import models, api
+from .... api.Objects.Stack import stack_helper
 
 
 log = logging.getLogger(__name__)
@@ -62,6 +63,35 @@ class ProcessS3BucketShare:
         shared_item_SM.update_state_single_item(session, sharing_item, new_state)
         try:
             #TODO: implement sharing code
+            # 1. implement Give IAM permissions - reuse code from backend/dataall/tasks/data_sharing/share_managers/s3_share_manager.py
+            # 2. Trigger update Dataset: in the initial implementation it used stack_helper.deploy_stack(context, share.datasetUri)
+            # directly from approve_share resolver (graphql api call) but since we are triggering the whole sharing with a processor it is better
+            # to use something like what is implemented in the stacks updater (backend/dataall/tasks/stacks_updater.py)
+            # I pasted the code below:
+
+            # def update_stack(session, envname, target_uri, wait=False):
+            #     stack: models.Stack = db.api.Stack.get_stack_by_target_uri(
+            #         session, target_uri=target_uri
+            #     )
+            #     cluster_name = Parameter().get_parameter(env=envname, path='ecs/cluster/name')
+            #     if not Ecs.is_task_running(cluster_name=cluster_name, started_by=f'awsworker-{stack.stackUri}'):
+            #         stack.EcsTaskArn = Ecs.run_cdkproxy_task(stack_uri=stack.stackUri)
+            #         if wait:
+            #             retries = 1
+            #             while Ecs.is_task_running(cluster_name=cluster_name, started_by=f'awsworker-{stack.stackUri}'):
+            #                 log.info(
+            #                     f"Update for {stack.name}//{stack.stackUri} is not complete, waiting for {SLEEP_TIME} seconds...")
+            #                 time.sleep(SLEEP_TIME)
+            #                 retries = retries + 1
+            #                 if retries > RETRIES:
+            #                     log.info(f"Maximum number of retries exceeded ({RETRIES} retries), continuing task...")
+            #                     break
+            #             log.info(
+            #                 f"Update for {stack.name}//{stack.stackUri} COMPLETE or maximum number of retries exceeded ({RETRIES} retries)")
+            #     else:
+            #         log.info(
+            #             f'Stack update is already running... Skipping stack {stack.name}//{stack.stackUri}'
+            #         )
 
             new_state = shared_item_SM.run_transition(models.Enums.ShareItemActions.Success.value)
             shared_item_SM.update_state_single_item(session, sharing_item, new_state)
