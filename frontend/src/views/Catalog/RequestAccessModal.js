@@ -36,6 +36,8 @@ const RequestAccessModal = (props) => {
   const [loadingRoles, setLoadingRoles] = useState(false);
   const [roleOptions, setRoleOptions] = useState([]);
 
+  /* TODO: Add fetchDataset as it is done in frontend/src/views/Datasets/DatasetEditForm.js:84 */
+
   const fetchEnvironments = useCallback(async () => {
     const response = await client.query(
       listEnvironments({
@@ -219,6 +221,7 @@ const RequestAccessModal = (props) => {
         <Typography align="center" color="textSecondary" variant="subtitle2">
           Data access is requested for the whole requester Team or for the selected Consumption role. The request will be submitted to the data owners, track its progress in the Shares menu on the left.
         </Typography>
+        /*TODO: Add dataset data sharing model info */
         <Box sx={{ p: 3 }}>
           <Formik
             initialValues={{

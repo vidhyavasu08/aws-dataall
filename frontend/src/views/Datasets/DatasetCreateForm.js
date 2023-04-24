@@ -118,7 +118,6 @@ const DatasetCreateForm = (props) => {
           description: values.description,
           topics: values.topics ? values.topics.map((t) => t.value) : [],
           confidentiality: values.confidentiality,
-          shareWithBucketPolicy: values.shareWithBucketPolicy,
           dataSharingModel: values.dataSharingModel
         })
       );
@@ -215,7 +214,6 @@ const DatasetCreateForm = (props) => {
                 SamlGroupName: '',
                 tags: [],
                 topics: [],
-                shareWithBucketPolicy: false,
                 dataSharingModel: ''
               }}
               validationSchema={Yup.object().shape({
