@@ -50,7 +50,10 @@ const DatasetCreateForm = (props) => {
     'Official',
     'Secret'
   ]);
-
+  const [dataSharingModelOptions] = useState([
+    {value:"granular", label:"Granular share - Tables (LakeFormation) & Folders (S3 Access Points)"},
+    {value:"full", label:"Full share - Dataset (S3 Bucket policy)"},
+  ]);
   const fetchEnvironments = useCallback(async () => {
     setLoading(true);
     const response = await client.query(
@@ -114,7 +117,8 @@ const DatasetCreateForm = (props) => {
           tags: values.tags,
           description: values.description,
           topics: values.topics ? values.topics.map((t) => t.value) : [],
-          confidentiality: values.confidentiality
+          confidentiality: values.confidentiality,
+          shareWithBucketPolicy: values.shareWithBucketPolicy
         })
       );
       if (!response.errors) {
@@ -209,7 +213,8 @@ const DatasetCreateForm = (props) => {
                 confidentiality: '',
                 SamlGroupName: '',
                 tags: [],
-                topics: []
+                topics: [],
+                shareWithBucketPolicy: false
               }}
               validationSchema={Yup.object().shape({
                 label: Yup.string()
@@ -475,6 +480,29 @@ const DatasetCreateForm = (props) => {
                               />
                             )}
                           />
+                        </CardContent>
+                        <CardContent>
+                          <TextField
+                            fullWidth
+                            error={Boolean(
+                              touched.dataSharingModel && errors.dataSharingModel
+                            )}
+                            helperText={
+                              touched.dataSharingModel && errors.dataSharingModel
+                            }
+                            label="Data sharing model"
+                            name="dataSharingModel"
+                            onChange={handleChange}
+                            select
+                            value={values.dataSharingModel}
+                            variant="outlined"
+                          >
+                            {dataSharingModelOptions.map((c) => (
+                              <MenuItem key={c.value} value={c.value}>
+                                {c.label}
+                              </MenuItem>
+                            ))}
+                          </TextField>
                         </CardContent>
                       </Card>
                       <Box
