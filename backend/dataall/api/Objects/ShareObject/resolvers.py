@@ -29,7 +29,6 @@ def create_share_object(
     itemType: str = None,
     input: dict = None,
 ):
-
     with context.engine.scoped_session() as session:
         dataset: models.Dataset = db.api.Dataset.get_dataset_by_uri(session, datasetUri)
         environment: models.Environment = db.api.Environment.get_environment_by_uri(

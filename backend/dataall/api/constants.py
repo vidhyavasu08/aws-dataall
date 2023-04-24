@@ -140,6 +140,7 @@ class ShareableType(GraphQLEnumMapper):
     Table = 'DatasetTable'
     StorageLocation = 'DatasetStorageLocation'
     View = 'View'
+    # TODO: add new type "S3Bucket"
 
 
 class PrincipalType(GraphQLEnumMapper):

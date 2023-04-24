@@ -414,6 +414,9 @@ class ShareObject:
             )
             session.add(share)
             session.commit()
+        # TODO: Until here everything stays the same, we are just validation/opening a new request
+        # TODO: For the case dataset.dataSharingModel == "Full" we need to create a models.ShareObjectItem of itemType=S3Bucket
+        # TODO: the other models.ShareObjectItem should only be created if dataset.dataSharingModel == "Granular"
 
         if itemUri:
             item = None
@@ -938,7 +941,7 @@ class ShareObject:
         )
         share_item_revokable_states = ShareItemSM.get_share_item_revokable_states()
         datasetUri = share.datasetUri
-
+        # TODO: add logic to get_dataset and for "Granular" data sharing return tables and folder, for "Full" return S3 bucket
         # All tables from dataset with a column isShared
         # marking the table as part of the shareObject
         tables = (

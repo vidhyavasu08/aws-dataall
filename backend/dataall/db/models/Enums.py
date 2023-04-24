@@ -103,6 +103,7 @@ class ShareableType(Enum):
     Table = 'DatasetTable'
     StorageLocation = 'DatasetStorageLocation'
     View = 'View'
+    # TODO: add new type "S3Bucket"
 
 
 class PrincipalType(Enum):
