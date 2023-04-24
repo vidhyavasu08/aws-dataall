@@ -46,6 +46,7 @@ const DatasetGovernance = (props) => {
           <Label color="primary">{dataset.confidentiality}</Label>
         </Box>
       </CardContent>
+      /* TODO: Add data sharing model info*/
       <CardContent>
         <Typography color="textSecondary" variant="subtitle2">
           Topics
