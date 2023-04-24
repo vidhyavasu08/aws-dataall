@@ -317,6 +317,17 @@ class ShareItemSM:
             ShareItemStatus.Revoke_Failed.value,
         ]
 
+    @staticmethod
+    def get_share_item_approved_states():
+        #TODO: add approved states to the item state machine to handle updates of dataset stack
+        return [
+            ShareItemStatus.Share_Approved.value,
+            ShareItemStatus.Share_Succeeded.value,
+            ShareItemStatus.Share_In_Progress.value,
+        ]
+
+
+
 
 class ShareObject:
     @staticmethod
@@ -1313,6 +1324,29 @@ class ShareObject:
             tables,
             folders,
         )
+
+    @staticmethod
+    def get_s3_shares_by_dataset_uri(session, uri):
+        #TODO: implement function to return all approved bucket shares for a Dataset
+        share_item_approved_states = ShareItemSM.get_share_item_approved_states()
+        s3_shares = (
+            session.query(models.ShareObject)
+            .join(
+                models.Dataset,
+                models.Dataset.datasetUri == uri
+            )
+            .join(
+                models.ShareObjectItem,
+                models.ShareObjectItem.shareUri == models.ShareObject.shareUri,
+            )
+            .filter(
+                and_(
+                    models.ShareObjectItem.itemType == models.Enums.ShareableType.S3Bucket,
+                    models.ShareObjectItem.status.in_(share_item_approved_states)
+                )
+            )
+        )
+        return s3_shares
 
     @staticmethod
     def other_approved_share_object_exists(session, environment_uri, dataset_uri):

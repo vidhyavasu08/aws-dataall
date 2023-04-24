@@ -24,7 +24,7 @@ from ...aws.handlers.lakeformation import LakeFormation
 from ...aws.handlers.quicksight import Quicksight
 from ...aws.handlers.sts import SessionHelper
 from ...db import models
-from ...db.api import Environment
+from ...db.api import Environment, ShareObject
 from ...utils.cdk_nag_utils import CDKNagUtil
 from ...utils.runtime_stacks_tagging import TagsUtil
 
@@ -77,6 +77,12 @@ class Dataset(Stack):
             if not dataset:
                 raise Exception('ObjectNotFound')
         return dataset
+
+    def get_s3_shares(self) -> typing.List[models.ShareObject]:
+        engine = self.get_engine()
+        with engine.scoped_session() as session:
+            s3_shares = ShareObject.get_s3_shares(session=session, datasetUri=self.target_uri)
+        return s3_shares
 
     def __init__(self, scope, id, target_uri: str = None, **kwargs):
         super().__init__(
@@ -186,6 +192,17 @@ class Dataset(Stack):
                 ],
                 enabled=True,
             )
+
+            if dataset.dataSharingModel == "Full":
+                #TODO: refine this piece of code
+                S3_shares = self.get_s3_shares()
+                for share in S3_shares:
+                    dataset_bucket.grant_read(
+                        identity=share.principalIAMRole
+                    )
+                    dataset_bucket.encryption_key.grant_decrypt(
+                        grantee=share.principalIAMRole
+                    )
 
         # Dataset IAM role - ETL policies
         dataset_admin_policy = iam.Policy(
