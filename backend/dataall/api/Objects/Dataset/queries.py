@@ -6,7 +6,7 @@ from .schema import DatasetSearchResult
 getDataset = gql.QueryField(
     name='getDataset',
     args=[gql.Argument(name='datasetUri', type=gql.NonNullableType(gql.String))],
-    type=gql.Ref('Dataset'),
+    type=gql.Ref('Dataset'), #TODO: since the output is Dataset, we need to modify the graphql object
     resolver=get_dataset,
     test_scope='Dataset',
 )

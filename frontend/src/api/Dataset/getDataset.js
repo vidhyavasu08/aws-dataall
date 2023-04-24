@@ -40,6 +40,7 @@ const getDataset = (datasetUri) => ({
         topics
         language
         confidentiality
+        /*TODO add dataSharingModel*/
         organization {
           organizationUri
           label

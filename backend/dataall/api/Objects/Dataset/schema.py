@@ -118,6 +118,7 @@ Dataset = gql.ObjectType(
         gql.Field(
             name='confidentiality', type=gql.Ref('ConfidentialityClassification')
         ),
+        #TODO: Add dataSharingModel of type gql.Ref('DataSharingModel')
         gql.Field(name='language', type=gql.Ref('Language')),
         gql.Field(
             name='projectPermission',
