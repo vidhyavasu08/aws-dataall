@@ -51,8 +51,8 @@ const DatasetCreateForm = (props) => {
     'Secret'
   ]);
   const [dataSharingModelOptions] = useState([
-    {value:"granular", label:"Granular share - Tables (LakeFormation) & Folders (S3 Access Points)"},
-    {value:"full", label:"Full share - Dataset (S3 Bucket policy)"},
+    {value:"Granular", label:"Granular share - Tables (LakeFormation) & Folders (S3 Access Points)"},
+    {value:"Full", label:"Full share - Dataset (S3 Bucket policy)"},
   ]);
   const fetchEnvironments = useCallback(async () => {
     setLoading(true);
@@ -118,7 +118,8 @@ const DatasetCreateForm = (props) => {
           description: values.description,
           topics: values.topics ? values.topics.map((t) => t.value) : [],
           confidentiality: values.confidentiality,
-          shareWithBucketPolicy: values.shareWithBucketPolicy
+          shareWithBucketPolicy: values.shareWithBucketPolicy,
+          dataSharingModel: values.dataSharingModel
         })
       );
       if (!response.errors) {
@@ -214,7 +215,8 @@ const DatasetCreateForm = (props) => {
                 SamlGroupName: '',
                 tags: [],
                 topics: [],
-                shareWithBucketPolicy: false
+                shareWithBucketPolicy: false,
+                dataSharingModel: ''
               }}
               validationSchema={Yup.object().shape({
                 label: Yup.string()
@@ -228,6 +230,7 @@ const DatasetCreateForm = (props) => {
                 environment: Yup.object().required('*Environment is required'),
                 tags: Yup.array().min(1).required('*Tags are required'),
                 stewards: Yup.string().max(255).nullable(),
+                dataSharingModel: Yup.string().required('*Data sharing model is required'),
                 confidentiality: Yup.string()
                   .max(255)
                   .required('*Confidentiality is required')

@@ -89,6 +89,7 @@ class Dataset:
             stewards=data.get('stewards')
             if data.get('stewards')
             else data['SamlAdminGroupName'],
+            dataSharingModel=data.get('dataSharingModel')
         )
         session.add(dataset)
         session.commit()

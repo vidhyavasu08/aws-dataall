@@ -210,6 +210,10 @@ class ConfidentialityClassification(GraphQLEnumMapper):
     Secret = 'Secret'
 
 
+class DataSharingModel(GraphQLEnumMapper):
+    Full = 'Full'
+    Granular = 'Granular'
+
 class Language(GraphQLEnumMapper):
     English = 'English'
     French = 'French'
