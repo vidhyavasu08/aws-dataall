@@ -32,6 +32,7 @@ class Dataset(Resource, Base):
     language = Column(String, nullable=False, default='English')
     topics = Column(postgresql.ARRAY(String), nullable=True)
     confidentiality = Column(String, nullable=False, default='Unclassified')
+    dataSharingModel = Column(String, nullable=False, default='Granular')
     tags = Column(postgresql.ARRAY(String))
     inProject = query_expression()
 
