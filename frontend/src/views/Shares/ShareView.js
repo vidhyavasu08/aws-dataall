@@ -690,6 +690,7 @@ const ShareView = () => {
                 <Card {...share}>
                   <Box>
                     <CardHeader title="Data Consumption details" />
+                    /*TODO: add condition to modify this Card depending on dataset.dataSharingModel*/
                     <Divider />
                   </Box>
                   <CardContent>
