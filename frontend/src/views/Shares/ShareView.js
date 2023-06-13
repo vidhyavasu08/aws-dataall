@@ -30,7 +30,6 @@ import {
   CopyAllOutlined,
   DeleteOutlined,
   RemoveCircleOutlineOutlined,
-  LockRounded,
   RefreshRounded
 } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
@@ -435,7 +434,7 @@ const ShareView = () => {
       variant: 'success'
     });
   };
-  
+
   const fetchItem = useCallback(async () => {
     setLoading(true);
     const response = await client.query(
@@ -472,7 +471,7 @@ const ShareView = () => {
     },
     [client, dispatch, filter, fetchItem, params.uri]
   );
-    
+
   useEffect(() => {
     if (client) {
       fetchItem().catch((e) => dispatch({ type: SET_ERROR, error: e.message }));
@@ -512,11 +511,11 @@ const ShareView = () => {
           {loading ? (
             <CircularProgress />
           ) : (
-            <Box sx={{ mt: 3 }}>
+            <Box sx={{ mt: 1 }}>
               <Grid container spacing={3}>
                 <Grid item md={5} xl={5} xs={12}>
                   <Box sx={{ mb: 3 }}>
-                    <Card {...share} sx={{ width: 1 }}>
+                    <Card {...share} style={{ height: '95%' }}>
                       <Box>
                         <CardHeader title="Requested Dataset Details" />
                         <Divider />
@@ -582,63 +581,13 @@ const ShareView = () => {
                               </Typography>
                             </Box>
                           </Box>
-                          <Box sx={{ mt: 3 }}>
-                            <Typography
-                              color="textSecondary"
-                              variant="subtitle2"
-                            >
-                              Request Purpose
-                              {share.userRoleForShareObject === 'Requesters' && (
-                                  <UpdateRequestReason
-                                    share={share}
-                                    client={client}
-                                    dispatch={dispatch}
-                                    enqueueSnackbar={enqueueSnackbar}
-                                    fetchItem={fetchItem}
-                                  />
-                              )}
-                            </Typography>
-                            <Box sx={{ mt: 1 }}>
-                              <Typography
-                                color="textPrimary"
-                                variant="subtitle2"
-                              >
-                                {share.requestPurpose || '-'}
-                              </Typography>
-                            </Box>
-                          </Box>
-                          <Box sx={{ mt: 3 }}>
-                            <Typography
-                              color="textSecondary"
-                              variant="subtitle2"
-                            >
-                              Reject Purpose
-                              {share.userRoleForShareObject === 'Approvers' && (
-                                  <UpdateRejectReason
-                                    share={share}
-                                    client={client}
-                                    dispatch={dispatch}
-                                    enqueueSnackbar={enqueueSnackbar}
-                                    fetchItem={fetchItem}
-                                  />
-                              )}
-                            </Typography>
-                            <Box sx={{ mt: 1 }}>
-                              <Typography
-                                color="textPrimary"
-                                variant="subtitle2"
-                              >
-                                {share.rejectPurpose || '-'}
-                              </Typography>
-                            </Box>
-                          </Box>
                         </Box>
                       </CardContent>
                     </Card>
                   </Box>
                 </Grid>
                 <Grid item md={7} xl={7} xs={12}>
-                  <Card {...share} style={{ height: '92%' }}>
+                  <Card {...share} style={{ height: '95%' }}>
                     <CardHeader
                       avatar={<TextAvatar name={share.owner} />}
                       disableTypography
@@ -762,6 +711,64 @@ const ShareView = () => {
                   </Card>
                 </Grid>
               </Grid>
+              <Box sx={{ mb: 3 }}>
+                <Card {...share}>
+                  <CardContent>
+                        <Box>
+                          <Box sx={{ mt: 1 }}>
+                            <Typography
+                              color="textSecondary"
+                              variant="subtitle2"
+                            >
+                              Request Purpose
+                              {share.userRoleForShareObject === 'Requesters' && (
+                                  <UpdateRequestReason
+                                    share={share}
+                                    client={client}
+                                    dispatch={dispatch}
+                                    enqueueSnackbar={enqueueSnackbar}
+                                    fetchItem={fetchItem}
+                                  />
+                              )}
+                            </Typography>
+                            <Box sx={{ mt: 1 }}>
+                              <Typography
+                                color="textPrimary"
+                                variant="subtitle2"
+                              >
+                                {share.requestPurpose || '-'}
+                              </Typography>
+                            </Box>
+                          </Box>
+                          <Box sx={{ mt: 1 }}>
+                            <Typography
+                              color="textSecondary"
+                              variant="subtitle2"
+                            >
+                              Reject Purpose
+                              {share.userRoleForShareObject === 'Approvers' && (
+                                  <UpdateRejectReason
+                                    share={share}
+                                    client={client}
+                                    dispatch={dispatch}
+                                    enqueueSnackbar={enqueueSnackbar}
+                                    fetchItem={fetchItem}
+                                  />
+                              )}
+                            </Typography>
+                            <Box sx={{ mt: 1 }}>
+                              <Typography
+                                color="textPrimary"
+                                variant="subtitle2"
+                              >
+                                {share.rejectPurpose || '-'}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Box>
+                      </CardContent>
+                </Card>
+              </Box>
               <Box sx={{ mb: 3 }}>
                 <Card {...share}>
                   <Box>
